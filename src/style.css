@@ -1,2 +1,18 @@
 @import 'tailwindcss';
 
+/* Normalize input[type="date"] on webkit/android */
+input[type="date"] {
+  min-height: 48px;
+  align-items: center;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.3);
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+  }
+}

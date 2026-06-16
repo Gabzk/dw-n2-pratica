@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "android:sync": "bun run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:run": "bun run build && npx cap sync android && npx cap run android",
+    "android:apk": "bun run build && npx cap sync android && cd android && ./gradlew assembleDebug"
   },
   "devDependencies": {
     "@capacitor/android": "^8.4.0",
@@ -24,6 +28,7 @@
   },
   "dependencies": {
     "@capacitor/core": "^8.4.0",
+    "@capacitor/preferences": "^8.0.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

@@ -1,42 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Plus, Search, Calendar, Users, Cake, ArrowLeft } from 'lucide-react'
+import { Preferences } from '@capacitor/preferences'
 import Input from './components/input'
 import Button from './components/button'
 import ContactCard from './components/ContactCard'
 import type { Contact } from './components/ContactCard'
 import CustomCalendar from './components/Calendar'
-
-// Initial template contacts so the app doesn't start completely blank
-const TEMPLATE_CONTACTS: Contact[] = [
-  {
-    id: '1',
-    name: 'Ana Silva',
-    phone: '(11) 98765-4321',
-    email: 'ana.silva@email.com',
-    birthday: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}` // Birthday today!
-  },
-  {
-    id: '2',
-    name: 'Bruno Ramos',
-    phone: '(21) 99999-8888',
-    email: 'bruno@email.com',
-    birthday: '1995-10-25'
-  },
-  {
-    id: '3',
-    name: 'Carla Souza',
-    phone: '(31) 98888-7777',
-    email: 'carla.souza@email.com',
-    birthday: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String((new Date().getDate() + 3) % 28).padStart(2, '0')}` // In 3 days
-  },
-  {
-    id: '4',
-    name: 'David Oliveira',
-    phone: '(41) 97777-6666',
-    email: 'david@email.com',
-    birthday: '1988-12-05'
-  }
-]
 
 export default function App() {
   const [contacts, setContacts] = useState<Contact[]>([])
@@ -57,17 +26,19 @@ export default function App() {
 
   // Load contacts on mount
   useEffect(() => {
-    const saved = localStorage.getItem('phonebook_contacts')
-    if (saved) {
-      try {
-        setContacts(JSON.parse(saved))
-      } catch (e) {
-        setContacts(TEMPLATE_CONTACTS)
+    const loadContacts = async () => {
+      const { value } = await Preferences.get({ key: 'phonebook_contacts' })
+      if (value) {
+        try {
+          setContacts(JSON.parse(value))
+        } catch (e) {
+          setContacts([])
+        }
+      } else {
+        setContacts([])
       }
-    } else {
-      setContacts(TEMPLATE_CONTACTS)
-      localStorage.setItem('phonebook_contacts', JSON.stringify(TEMPLATE_CONTACTS))
     }
+    loadContacts()
 
     // Time ticker for mock phone status bar
     const updateTime = () => {
@@ -82,9 +53,12 @@ export default function App() {
   }, [])
 
   // Save contacts
-  const saveContactsToStorage = (updatedList: Contact[]) => {
+  const saveContactsToStorage = async (updatedList: Contact[]) => {
     setContacts(updatedList)
-    localStorage.setItem('phonebook_contacts', JSON.stringify(updatedList))
+    await Preferences.set({
+      key: 'phonebook_contacts',
+      value: JSON.stringify(updatedList)
+    })
   }
 
   // Handle delete
@@ -222,7 +196,7 @@ export default function App() {
   const upcomingBirthdays = getUpcomingBirthdays()
 
   return (
-    <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-0 md:p-6 font-sans">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 md:bg-neutral-900 flex items-center justify-center p-0 md:p-6 font-sans">
       
       {/* PHONE WRAPPER: Simulates a phone chassis on desktop, full screen on mobile */}
       <div className="w-full h-screen md:h-[840px] md:w-[410px] md:rounded-[44px] md:border-[10px] md:border-neutral-950 md:shadow-2xl bg-neutral-50 dark:bg-neutral-900 overflow-hidden flex flex-col relative md:ring-8 md:ring-neutral-800">
@@ -244,7 +218,7 @@ export default function App() {
         </div>
 
         {/* APP MAIN CONTENT AREA (Scrollable) */}
-        <div className="flex-1 overflow-y-auto pb-20 bg-neutral-50 dark:bg-neutral-900 scrollbar-none px-4">
+        <div className="flex-1 overflow-y-auto pt-[env(safe-area-inset-top,0px)] pb-[calc(110px+env(safe-area-inset-bottom,0px))] bg-neutral-50 dark:bg-neutral-900 scrollbar-none px-4">
           
           {/* TAB 1: CONTACTS LIST */}
           {activeTab === 'contacts' && (
@@ -273,7 +247,7 @@ export default function App() {
                   placeholder="Buscar contato..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white dark:bg-neutral-800 pl-11 pr-4 py-3 text-sm rounded-2xl border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                  className="w-full bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-400 pl-11 pr-4 py-3 text-sm rounded-2xl border border-neutral-200 dark:border-neutral-700/80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                 />
               </div>
 
@@ -472,7 +446,7 @@ export default function App() {
         </div>
 
         {/* BOTTOM NAVIGATION TAB BAR */}
-        <div className="absolute bottom-0 left-0 right-0 h-18 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-200/60 dark:border-neutral-800/80 flex items-center justify-around px-4 z-40">
+        <div className="absolute bottom-0 left-0 right-0 h-auto py-3 pb-[calc(12px+env(safe-area-inset-bottom,0px))] bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-200/60 dark:border-neutral-800/80 flex items-center justify-around px-4 z-40">
           <button
             onClick={() => setActiveTab('contacts')}
             className={`flex flex-col items-center justify-center gap-1 flex-1 py-2 cursor-pointer transition-all ${
