@@ -21,9 +21,6 @@ export default function App() {
   // Editing state
   const [editingContact, setEditingContact] = useState<Contact | null>(null)
 
-  // System time for status bar
-  const [systemTime, setSystemTime] = useState('12:00')
-
   // Load contacts on mount
   useEffect(() => {
     const loadContacts = async () => {
@@ -39,17 +36,6 @@ export default function App() {
       }
     }
     loadContacts()
-
-    // Time ticker for mock phone status bar
-    const updateTime = () => {
-      const now = new Date()
-      setSystemTime(
-        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-      )
-    }
-    updateTime()
-    const interval = setInterval(updateTime, 60000)
-    return () => clearInterval(interval)
   }, [])
 
   // Save contacts
@@ -196,29 +182,10 @@ export default function App() {
   const upcomingBirthdays = getUpcomingBirthdays()
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 md:bg-neutral-900 flex items-center justify-center p-0 md:p-6 font-sans">
+    <div className="w-full min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col relative font-sans overflow-hidden">
       
-      {/* PHONE WRAPPER: Simulates a phone chassis on desktop, full screen on mobile */}
-      <div className="w-full h-screen md:h-[840px] md:w-[410px] md:rounded-[44px] md:border-[10px] md:border-neutral-950 md:shadow-2xl bg-neutral-50 dark:bg-neutral-900 overflow-hidden flex flex-col relative md:ring-8 md:ring-neutral-800">
-        
-        {/* Mock Notch / Dynamic Island Detail for Desktop */}
-        <div className="hidden md:flex absolute top-0 left-1/2 transform -translate-x-1/2 w-36 h-6 bg-neutral-950 rounded-b-2xl z-50 items-center justify-center">
-          <div className="w-2.5 h-2.5 rounded-full bg-neutral-800 ml-auto mr-4" />
-        </div>
-
-        {/* Mock Status Bar */}
-        <div className="hidden md:flex h-10 shrink-0 bg-neutral-50 dark:bg-neutral-900 items-center justify-between px-6 text-xs font-semibold text-neutral-600 dark:text-neutral-300 select-none z-40">
-          <span>{systemTime}</span>
-          <div className="flex items-center gap-1.5">
-            <span className="w-4 h-2 bg-neutral-600 dark:bg-neutral-400 rounded-sm relative">
-              <span className="w-0.5 h-1 bg-neutral-600 dark:bg-neutral-400 absolute -right-0.5 top-0.5 rounded-r-xs" />
-            </span>
-            <span className="text-[10px]">100%</span>
-          </div>
-        </div>
-
-        {/* APP MAIN CONTENT AREA (Scrollable) */}
-        <div className="flex-1 overflow-y-auto pt-[env(safe-area-inset-top,0px)] pb-[calc(110px+env(safe-area-inset-bottom,0px))] bg-neutral-50 dark:bg-neutral-900 scrollbar-none px-4">
+      {/* APP MAIN CONTENT AREA (Scrollable) */}
+      <div className="flex-1 overflow-y-auto pt-[env(safe-area-inset-top,0px)] pb-[calc(110px+env(safe-area-inset-bottom,0px))] bg-neutral-50 dark:bg-neutral-900 scrollbar-none px-4">
           
           {/* TAB 1: CONTACTS LIST */}
           {activeTab === 'contacts' && (
@@ -488,11 +455,6 @@ export default function App() {
             <span className="text-[10px]">Calendário</span>
           </button>
         </div>
-
-        {/* Mock Home Indicator Bar for iOS/Android Look on Desktop */}
-        <div className="hidden md:block absolute bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-neutral-600 dark:bg-neutral-500 rounded-full z-50 pointer-events-none" />
-
-      </div>
 
     </div>
   )
