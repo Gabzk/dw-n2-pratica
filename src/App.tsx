@@ -182,7 +182,7 @@ export default function App() {
   const upcomingBirthdays = getUpcomingBirthdays()
 
   return (
-    <div className="w-full min-h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col relative font-sans overflow-hidden">
+    <div className="w-full h-screen bg-neutral-50 dark:bg-neutral-900 flex flex-col relative font-sans overflow-hidden">
       
       {/* APP MAIN CONTENT AREA (Scrollable) */}
       <div className="flex-1 overflow-y-auto pt-[env(safe-area-inset-top,0px)] pb-[calc(110px+env(safe-area-inset-bottom,0px))] bg-neutral-50 dark:bg-neutral-900 scrollbar-none px-4">
