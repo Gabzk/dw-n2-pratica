@@ -52,3 +52,17 @@ try {
 } catch(Exception e) {
     logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
 }
+
+// Copia o APK de debug para a raiz do projeto após o build
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleDebug') {
+        task.finalizedBy 'copyDebugApk'
+    }
+}
+
+tasks.register('copyDebugApk', Copy) {
+    from "${buildDir}/outputs/apk/debug"
+    into "${rootDir}/../apks"
+    include "app-debug.apk"
+}
+
