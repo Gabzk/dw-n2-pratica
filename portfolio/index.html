@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio | Design Web</title>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Design Web <span>Portfólio</span></h1>
+            <p class="student-name">Gabriel Rodrigues Alves</p>
+            <p class="subtitle">Galeria de atividades práticas desenvolvidas durante a disciplina.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="gallery-grid">
+            <!-- Atividade 1 -->
+            <div class="gallery-card">
+                <div class="card-image">
+                    <img src="imagens/youtube-clone.png" alt="Clone do YouTube">
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 1: Clone do YouTube</h3>
+                </div>
+            </div>
+
+            <!-- Atividade 2 -->
+            <div class="gallery-card">
+                <div class="card-image">
+                    <img src="imagens/file-manager.png" alt="Gerenciador de Arquivos">
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 2: Gerenciador de Arquivos</h3>
+                </div>
+            </div>
+
+            <!-- Atividade 3 -->
+            <div class="gallery-card">
+                <div class="card-image">
+                    <img src="imagens/impressora.png" alt="Dashboard Impressora 3D">
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 3: Painel de Impressora 3D</h3>
+                </div>
+            </div>
+
+            <!-- Atividade 4 -->
+            <div class="gallery-card">
+                <div class="card-image">
+                    <img src="imagens/celular.png" alt="Interface Mobile">
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 4: Visualização Mobile</h3>
+                </div>
+            </div>
+
+            <!-- Atividade 5 -->
+            <div class="gallery-card">
+                <div class="card-image">
+                    <img src="imagens/modal.png" alt="Componente Modal">
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 5: Componente Modal</h3>
+                </div>
+            </div>
+
+            <!-- Atividade 6: Aplicativo Híbrido com Capacitor (Tamanho normal com data-images para navegar no lightbox) -->
+            <div class="gallery-card">
+                <div class="card-image" data-images="imagens/Captura_de_tela_20260617_194259.png,imagens/Captura_de_tela_20260617_194322.png,imagens/Captura_de_tela_20260617_194345.png">
+                    <img src="imagens/Captura_de_tela_20260617_194259.png" alt="Aplicativo Híbrido Mobile (Capacitor)">
+                    <span class="img-badge">Ver 3 telas</span>
+                </div>
+                <div class="card-body">
+                    <h3>Atividade 6: Aplicativo Híbrido Mobile (Capacitor)</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Gabriel Rodrigues Alves &copy; 2026 | Portfólio de Design Web</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal Simplificado para Ampliar Imagens com Navegação -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <button class="lightbox-arrow prev-arrow" aria-label="Anterior">&lsaquo;</button>
+        <div class="lightbox-slider" id="lightbox-slider">
+            <img class="lightbox-img" id="lightbox-img" src="" alt="Imagem ampliada">
+        </div>
+        <button class="lightbox-arrow next-arrow" aria-label="Próxima">&rsaquo;</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
